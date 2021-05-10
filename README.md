@@ -1,6 +1,6 @@
-# Getting Started with Create React App
+# NYPD Precincts and Allegations of Misconduct
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is an interactive map that shows NYC's police precincts along with the number of total allegations of misconduct tied to each precinct as determined from ProPublica's database of over 33,300 allegations.  It's based on code I used to write (knowyourcops.com)[http://knowyourcops.com].
 
 ## Available Scripts
 
