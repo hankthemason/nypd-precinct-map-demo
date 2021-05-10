@@ -1,6 +1,6 @@
 # NYPD Precincts and Allegations of Misconduct
 
-This is an interactive map that shows NYC's police precincts along with the number of total allegations of misconduct tied to each precinct as determined from ProPublica's database of over 33,300 allegations.  It's based on code I used to write (knowyourcops.com)[http://knowyourcops.com].
+This is an interactive map that shows NYC's police precincts along with the number of total allegations of misconduct tied to each precinct as determined from ProPublica's database of over 33,300 allegations.  It's based on code I used to write [knowyourcops.com](http://knowyourcops.com).
 
 ## Available Scripts
 
