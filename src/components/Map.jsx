@@ -14,15 +14,15 @@ export const PrecinctsMap = (props) => {
 
 
   const svgRef = useRef();
+  const containerRef = useRef()
 
   const tooltipMouseOver = (event, d) => {
     
     const numAllegations = allegationsByPrecinct.get(d.properties.Precinct)
 
-    const rect = d3.select('#precincts-map').node().getBoundingClientRect()
+    const rect = d3.select('.map-container').node().getBoundingClientRect()
 		let tooltip = d3.select(".tooltip")
 		
-    //3. tooltip mouseover
 		tooltip
 		  .style("left", (event.pageX - rect.x) + "px")
   	  .style("top", (event.pageY - rect.y + 20) + "px")
@@ -30,14 +30,13 @@ export const PrecinctsMap = (props) => {
    	  .duration(100)
    	  .style("opacity", .9)
     
-    tooltip.html("<strong> Precinct: " + d.properties.Precinct + "</strong>"
-     								+ "<br>" + `allegations: ${numAllegations}`)
+    tooltip
+      .html("<strong> Precinct: " + d.properties.Precinct + "</strong>" + "<br>" + `allegations: ${numAllegations}`)
   }
   
   const renderMap = (mapData, path) => {
 
-    //1. create the tooltip
-    const tooltip = d3.select(svgRef.current)
+    const tooltip = d3.select(containerRef.current)
 			.append("div")
     	.attr("class", "tooltip")
     	.style("position", "absolute")
@@ -58,13 +57,22 @@ export const PrecinctsMap = (props) => {
           const numAllegations = allegationsByPrecinct.get(d.properties['Precinct'])
           return scale(numAllegations)
         })
-        //2. mouseon/mouseover
-        .on("mouseover mousemove", tooltipMouseOver)
+        .on("mouseover mousemove", function(event, d) {
+          tooltipMouseOver(event, d)
+          d3.select(event.currentTarget)
+            .attr('stroke', '#000000')
+            .attr('stroke-width', 1)
+            .raise()
+        })
         .on("mouseout", function(event, d) {
+          d3.select(event.currentTarget)
+            .attr('stroke', '#000000')
+            .attr('stroke-width', '0.2')
+            .lower()
           tooltip.transition()
-           .duration(100)
+            .duration(100)
             .style("opacity", 0);
-        });
+        })  
   }
   
   useEffect(() => {
@@ -81,6 +89,8 @@ export const PrecinctsMap = (props) => {
   }, [data])
  
   return (
-    <svg id='precincts-map' ref={svgRef} width="500" height="500"/>
+    <div ref={containerRef} className="map-container" style={{position: 'relative'}}>
+      <svg id='precincts-map' ref={svgRef} width="500" height="500"/>
+    </div>
   )
 }
