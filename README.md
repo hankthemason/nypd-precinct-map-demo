@@ -9,4 +9,5 @@ This is an interactive map that shows NYC's police precincts along with the numb
  
  ## Data
  ProPublica's database: https://projects.propublica.org/nypd-ccrb/
+ 
  NYPD precincts GeoJSON: https://raw.githubusercontent.com/dwillis/nyc-maps/master/police_precincts.geojson
