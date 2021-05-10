@@ -1,15 +1,16 @@
 import './App.css';
-import { Map } from 'components/Map'
+import { PrecinctsMap } from 'components/Map'
 import { useFetch } from 'hooks/useDataApi'
+import { allegations } from 'data/cleanedPctAllegations'
 
 const url = 'https://raw.githubusercontent.com/dwillis/nyc-maps/master/police_precincts.geojson'
 
 function App() {
   const [{ data }] = useFetch(url)
-  
+
   return (
     <div className="App">
-      <Map data={data}/>
+      <PrecinctsMap mapData={data} heatData={allegations}/>
     </div>
   );
 }

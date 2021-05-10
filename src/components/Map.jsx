@@ -1,9 +1,18 @@
 import React, { useEffect, useState, useRef  } from 'react'
 import * as d3 from 'd3'
 
-export const Map = (props) => {
+export const PrecinctsMap = (props) => {
 
-  const { data } = props
+  let { mapData: data, heatData: allegations } = props
+  //return an object where each key is the precinct number and the value is the number of allegations
+  const allegationsByPrecinct = new Map(allegations.map(e => [e[0], e[1]]))
+  console.log(allegationsByPrecinct)
+
+  //make a color scale to map precincts by # of allegations
+  const maxAllegations = d3.max(allegationsByPrecinct.values())
+  console.log(maxAllegations)
+  const quantizeScale = d3.scaleSequential([0, maxAllegations], d3.interpolateBlues)
+
 
   const svgRef = useRef();
 
@@ -12,11 +21,14 @@ export const Map = (props) => {
       .selectAll('path')
       .data(mapData.features)
       .join('path')
-        .attr('id', d => `precinct-${d.properties['Precinct']}`)
+        .attr('precinct', d => `${d.properties['Precinct']}`)
         .attr('d', path)
         .attr('stroke', '#000000')
         .attr('stroke-width', '.2')
-        .attr('fill', 'transparent')
+        .attr('fill', function(d) {
+          const numAllegations = allegationsByPrecinct.get(d.properties['Precinct'])
+          return quantizeScale(numAllegations)
+        })
   }
   
   useEffect(() => {
