@@ -6,12 +6,11 @@ export const PrecinctsMap = (props) => {
   let { mapData: data, heatData: allegations } = props
   //return an object where each key is the precinct number and the value is the number of allegations
   const allegationsByPrecinct = new Map(allegations.map(e => [e[0], e[1]]))
-  console.log(allegationsByPrecinct)
 
   //make a color scale to map precincts by # of allegations
   const maxAllegations = d3.max(allegationsByPrecinct.values())
-  console.log(maxAllegations)
-  const quantizeScale = d3.scaleSequential([0, maxAllegations], d3.interpolateBlues)
+  
+  const scale = d3.scaleSequential([0, maxAllegations], d3.interpolateBlues)
 
 
   const svgRef = useRef();
@@ -27,7 +26,7 @@ export const PrecinctsMap = (props) => {
         .attr('stroke-width', '.2')
         .attr('fill', function(d) {
           const numAllegations = allegationsByPrecinct.get(d.properties['Precinct'])
-          return quantizeScale(numAllegations)
+          return scale(numAllegations)
         })
   }
   
